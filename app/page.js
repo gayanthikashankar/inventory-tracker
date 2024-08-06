@@ -6,7 +6,6 @@ import { Box, Button, Modal, Stack, TextField, Typography, MenuItem, Select, cre
 import { getDocs, query, collection, doc, getDoc, setDoc, deleteDoc, writeBatch } from "firebase/firestore";
 import { OpenAI } from "openai";
 import '../app/globals.css';
-
 const theme = createTheme({
   palette: {
     primary: {
@@ -14,6 +13,7 @@ const theme = createTheme({
     },
     secondary: {
       main: '#4CA1AF', // Light blue for buttons
+      dark: '#357A8A', // Darker shade of blue for the "Remove All Items" button
     },
     background: {
       default: '#ECEFF1', // Light grey for background
@@ -23,20 +23,23 @@ const theme = createTheme({
     },
   },
   typography: {
+    fontFamily: '-apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", "Arial", sans-serif', // Use the San Francisco font
     h2: {
       fontWeight: 700,
       color: '#FFFFFF',
+      fontFamily: 'SF Pro Display, sans-serif', // Use the font
     },
     h3: {
       fontWeight: 500,
       color: '#4CA1AF',
+      fontFamily: 'SF Pro Display, sans-serif', // Use the font
     },
   },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: '8px',
+          borderRadius: '8px', // Rounded corners for buttons
           textTransform: 'none',
           color: '#FFFFFF', // White text for buttons
         },
@@ -45,13 +48,21 @@ const theme = createTheme({
     MuiTextField: {
       styleOverrides: {
         root: {
-          borderRadius: '8px',
+          borderRadius: '8px', // Rounded corners for text fields
           backgroundColor: '#FFFFFF', // White background for text fields
         },
       },
     },
   },
 });
+
+const fadeInAnimation = {
+  animation: 'fadeIn 2s ease-in-out',
+  '@keyframes fadeIn': {
+    '0%': { opacity: 0 },
+    '100%': { opacity: 1 },
+  },
+};
 
 export default function Home() {
   const [inventory, setInventory] = useState([]);
@@ -186,6 +197,8 @@ export default function Home() {
         gap={2}
         sx={{
           color: 'white',
+          ...fadeInAnimation, // Apply the fade-in animation
+          borderRadius: '8px', // Rounded corners for the main container
         }}
       >
         <Modal open={open} onClose={handleClose}>
@@ -194,7 +207,7 @@ export default function Home() {
             top="50%"
             left="50%"
             width={400}
-            bgcolor="background.paper"
+            bgcolor="rgba(0, 0, 0, 0.7)" // Semi-transparent black background
             border="2px solid #000"
             boxShadow={24}
             p={4}
@@ -203,7 +216,8 @@ export default function Home() {
             gap={3}
             sx={{
               transform: "translate(-50%, -50%)",
-              borderRadius: '8px',
+              borderRadius: '8px', // Rounded corners for the modal
+              backdropFilter: 'blur(10px)', // Apply blur effect
             }}
           >
             <Typography variant="h6">Add Item</Typography>
@@ -236,7 +250,7 @@ export default function Home() {
         <Button
           variant="contained"
           onClick={handleOpen}
-          sx={{ marginBottom: 2}}
+          sx={{ marginBottom: 2, borderRadius: '8px' }} // Rounded corners for the button
         >
           Add New Item
         </Button>
@@ -244,7 +258,7 @@ export default function Home() {
           variant="contained"
           color="secondary"
           onClick={removeAllItems}
-          sx={{ marginBottom: 2}}
+          sx={{ marginBottom: 2, borderRadius: '8px', backgroundColor: theme.palette.secondary.dark }} // Darker blue and rounded corners
         >
           Remove All Items
         </Button>
@@ -259,6 +273,7 @@ export default function Home() {
               textAlign: 'center', // Center the input text
               color: 'black', // Set text color to black,
             },
+            borderRadius: '8px', // Rounded corners for the text field
           }}
         />
         <Stack direction="row" spacing={2} sx={{ marginBottom: 2 }}>
@@ -266,6 +281,7 @@ export default function Home() {
             value={dateFilterOption}
             onChange={handleDateFilterChange}
             displayEmpty
+            sx={{ borderRadius: '8px' }} // Rounded corners for the select
           >
             <MenuItem value="latest" sx={{ color: 'black' }}>Recently Added</MenuItem>
             <MenuItem value="oldest" sx={{ color: 'black' }}>Previously Added</MenuItem>
@@ -274,6 +290,7 @@ export default function Home() {
             value={quantityFilterOption}
             onChange={handleQuantityFilterChange}
             displayEmpty
+            sx={{ borderRadius: '8px' }} // Rounded corners for the select
           >
             <MenuItem value="all" sx={{ color: 'black' }}>All Quantities</MenuItem>
             <MenuItem value="most" sx={{ color: 'black' }}>Highest Quantity</MenuItem>
@@ -284,10 +301,14 @@ export default function Home() {
           <Box
             width="800px"
             height="100px"
-            bgcolor="primary.main"
+            bgcolor="rgba(0, 0, 0, 0.7)" // Black color with slight transparency
             alignItems="center"
             justifyContent="center"
             display="flex"
+            sx={{
+              backdropFilter: 'blur(10px)', // Apply blur effect
+              borderRadius: '8px 8px 0 0', // Rounded corners for the top box
+            }}
           >
             <Typography variant="h2">
               Inventory Items
@@ -302,9 +323,12 @@ export default function Home() {
                 display="flex"
                 alignItems="center"
                 justifyContent="space-between"
-                bgcolor="secondary.main"
+                bgcolor="rgba(0, 0, 0, 0.3)" // More transparent and less grey
                 padding={5}
-                borderRadius="8px"
+                borderRadius="8px" // Rounded corners for each item box
+                sx={{
+                  backdropFilter: 'blur(5px)', // Apply blur effect
+                }}
               >
                 <Typography
                   variant="h3"
@@ -322,12 +346,16 @@ export default function Home() {
                 </Typography>
                 <Button
                   variant="contained"
+                  color="secondary"
+                  sx={{ borderRadius: '8px', backgroundColor: theme.palette.secondary.dark }} // Darker blue and rounded corners
                   onClick={() => addItem(name)}
                 >
                   Add
                 </Button>
                 <Button
                   variant="contained"
+                  color="secondary"
+                  sx={{ borderRadius: '8px', backgroundColor: theme.palette.secondary.dark }} // Darker blue and rounded corners
                   onClick={() => removeItem(name)}
                 >
                   Remove
