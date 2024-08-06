@@ -236,6 +236,7 @@ export default function Home() {
         <Button
           variant="contained"
           onClick={handleOpen}
+          sx={{ marginBottom: 2}}
         >
           Add New Item
         </Button>
@@ -243,7 +244,7 @@ export default function Home() {
           variant="contained"
           color="secondary"
           onClick={removeAllItems}
-          sx={{ marginBottom: 2 }}
+          sx={{ marginBottom: 2}}
         >
           Remove All Items
         </Button>
@@ -256,7 +257,7 @@ export default function Home() {
             marginBottom: 2,
             input: {
               textAlign: 'center', // Center the input text
-              color: 'black', // Set text color to black
+              color: 'black', // Set text color to black,
             },
           }}
         />
@@ -266,17 +267,17 @@ export default function Home() {
             onChange={handleDateFilterChange}
             displayEmpty
           >
-            <MenuItem value="latest">Recently Added</MenuItem>
-            <MenuItem value="oldest">Previously Added</MenuItem>
+            <MenuItem value="latest" sx={{ color: 'black' }}>Recently Added</MenuItem>
+            <MenuItem value="oldest" sx={{ color: 'black' }}>Previously Added</MenuItem>
           </Select>
           <Select
             value={quantityFilterOption}
             onChange={handleQuantityFilterChange}
             displayEmpty
           >
-            <MenuItem value="all">All Quantities</MenuItem>
-            <MenuItem value="most">Highest Quantity</MenuItem>
-            <MenuItem value="least">Lowest Quantity</MenuItem>
+            <MenuItem value="all" sx={{ color: 'black' }}>All Quantities</MenuItem>
+            <MenuItem value="most" sx={{ color: 'black' }}>Highest Quantity</MenuItem>
+            <MenuItem value="least" sx={{ color: 'black' }}>Lowest Quantity</MenuItem>
           </Select>
         </Stack>
         <Box border="1px solid #333" borderRadius="8px" overflow="hidden">
